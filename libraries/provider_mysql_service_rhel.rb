@@ -16,6 +16,19 @@ class Chef
 
         action :create do
           case node['platform_version'].to_i.to_s
+          when '11.3'
+            case new_resource.version
+            when '5.5'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysqld'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql'
+              service_name = 'mysqld'
+            end
           when '2013'
             case new_resource.version
             when '5.1'
@@ -248,6 +261,7 @@ end
 
 Chef::Platform.set :platform => :amazon, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
 Chef::Platform.set :platform => :redhat, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
+Chef::Platform.set :platform => :suse, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
 Chef::Platform.set :platform => :centos, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
 Chef::Platform.set :platform => :oracle, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
 Chef::Platform.set :platform => :scientific, :resource => :mysql_service, :provider => Chef::Provider::MysqlService::Rhel
