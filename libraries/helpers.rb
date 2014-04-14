@@ -31,6 +31,7 @@ module Opscode
       def keyname_for(platform, platform_family, platform_version)
         case
         when platform_family == 'rhel'
+        when platform_family == 'suse'
           platform == 'amazon' ? platform_version : platform_version.to_i.to_s
         when platform_family == 'fedora'
           platform_version
@@ -99,6 +100,13 @@ module Opscode
               },
               '5.5' => {
                 'package_name' => 'mysql55-server',
+                'service_name' => 'mysqld'
+              }
+            },
+            '10.3' => {
+              'default_version' => '5.5',
+              '5.5' => {
+                'package_name' => 'mysql',
                 'service_name' => 'mysqld'
               }
             }
